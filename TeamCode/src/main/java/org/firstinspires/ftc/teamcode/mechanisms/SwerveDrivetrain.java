@@ -2,39 +2,39 @@ package org.firstinspires.ftc.teamcode.mechanisms;
 
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.util.Range;
 
 public class SwerveDrivetrain {
-    private static final double TRACK_WIDTH = 12.0;  // Distance between left and right wheels
-    private static final double WHEEL_BASE = 12.0;   // Distance between front and back wheels
+    private static final double TRACK_WIDTH = 12.0;  // TODO Update track width
+    private static final double WHEEL_BASE = 12.0;   // TODO Update wheel base
     private static final double R = Math.hypot(WHEEL_BASE, TRACK_WIDTH);
 
-    private final DcMotor[] driveMotors = new DcMotor[4];
+    private final DcMotorEx[] driveMotors = new DcMotorEx[4];
     private final Servo[] steeringServos = new Servo[4];
 
     private IMU imu;
 
 
     public void init(HardwareMap hwMap) {
-       driveMotors[0] = hwMap.get(DcMotor.class, "frontLeftDrive");
-       driveMotors[1] = hwMap.get(DcMotor.class, "frontRightDrive");
-       driveMotors[2] = hwMap.get(DcMotor.class, "backLeftDrive");
-       driveMotors[3] = hwMap.get(DcMotor.class, "backRightDrive");
+       driveMotors[0] = hwMap.get(DcMotorEx.class, "frontLeftDrive");
+       driveMotors[1] = hwMap.get(DcMotorEx.class, "frontRightDrive");
+       driveMotors[2] = hwMap.get(DcMotorEx.class, "backLeftDrive");
+       driveMotors[3] = hwMap.get(DcMotorEx.class, "backRightDrive");
 
-        for (int i = 0; i < 4; i++) {
-            driveMotors[i].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        }
+       for (int i = 0; i < 4; i++) {
+           driveMotors[i].setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+       }
 
        steeringServos[0] = hwMap.get(Servo.class, "frontLeftSteer");
        steeringServos[1] = hwMap.get(Servo.class, "frontRightSteer");
        steeringServos[2] = hwMap.get(Servo.class, "backLeftSteer");
        steeringServos[3] = hwMap.get(Servo.class, "backRightSteer");
 
-        IMU.Parameters myIMUparameters = new IMU.Parameters(
+        IMU.Parameters IMUparameters = new IMU.Parameters(
                 new RevHubOrientationOnRobot(
                         RevHubOrientationOnRobot.LogoFacingDirection.UP, // TODO Change to Logo Direction
                         RevHubOrientationOnRobot.UsbFacingDirection.FORWARD // TODO Change to USB Direction
@@ -42,7 +42,7 @@ public class SwerveDrivetrain {
         );
 
         imu = hwMap.get(IMU.class, "imu");
-        imu.initialize(myIMUparameters);
+        imu.initialize(IMUparameters);
 
 
     }
@@ -87,8 +87,15 @@ public class SwerveDrivetrain {
             brSpeed /= maxSpeed;
         }
 
-        // TODO: Output these target speeds and angles to your modules!
-        // Example: Set motor powers to speeds, and PID-control your servos to match target angles.
+        driveModule frontLeft = new driveModule(driveMotors[0], steeringServos[0]);
+        driveModule frontRight = new driveModule(driveMotors[1], steeringServos[1]);
+        driveModule backLeft = new driveModule(driveMotors[2], steeringServos[2]);
+        driveModule backRight = new driveModule(driveMotors[3], steeringServos[3]);
+
+        frontLeft.update(flSpeed, flAngle);
+        frontRight.update(frSpeed, frAngle);
+        backLeft.update(blSpeed, blAngle);
+        backRight.update(brSpeed, brAngle);
 
     }
 
