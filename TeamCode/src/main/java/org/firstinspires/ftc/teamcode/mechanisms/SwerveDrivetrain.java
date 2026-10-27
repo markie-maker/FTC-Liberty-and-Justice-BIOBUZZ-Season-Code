@@ -104,16 +104,21 @@ public class SwerveDrivetrain {
         driveModule backLeft = new driveModule(driveMotors[2], steeringServos[2]);
         driveModule backRight = new driveModule(driveMotors[3], steeringServos[3]);
 
-
         frontLeft.displayTelemetry(telemetry, flAngle, flSpeed, steeringServos[0], "Front Left");
         frontRight.displayTelemetry(telemetry, frAngle, frSpeed, steeringServos[1], "Front Right");
-        backLeft.displayTelemetry(telemetry, blAngle, blSpeed, steeringServos[3], "Back Left");
-        backRight.displayTelemetry(telemetry, brAngle, brSpeed, steeringServos[4], "Back Right");
+        backLeft.displayTelemetry(telemetry, blAngle, blSpeed, steeringServos[2], "Back Left");
+        backRight.displayTelemetry(telemetry, brAngle, brSpeed, steeringServos[3], "Back Right");
 
         frontLeft.update(flSpeed, flAngle);
         frontRight.update(frSpeed, frAngle);
         backLeft.update(blSpeed, blAngle);
         backRight.update(brSpeed, brAngle);
+    }
+
+    public void setServoPosition(double servoPos) {
+        for (Servo servo : steeringServos) {
+            servo.setPosition(servoPos);
+        }
     }
 
 

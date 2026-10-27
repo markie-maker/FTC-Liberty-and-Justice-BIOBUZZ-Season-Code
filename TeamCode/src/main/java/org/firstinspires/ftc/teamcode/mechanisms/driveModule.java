@@ -1,8 +1,9 @@
 package org.firstinspires.ftc.teamcode.mechanisms;
 
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.PwmControl;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.ServoImplEx;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
@@ -18,6 +19,10 @@ public class driveModule {
             this.motor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
         }
         this.servo = servo;
+//      just know it allows the axon servo to go the full 180deg range instead of 135-140deg
+        if (this.servo instanceof ServoImplEx) {
+            ((ServoImplEx) this.servo).setPwmRange(new PwmControl.PwmRange(500, 2500));
+        }
     }
 
     public void update(double motorSpeed, double targetAngle) {
