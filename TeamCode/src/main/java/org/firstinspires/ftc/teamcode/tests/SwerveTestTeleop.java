@@ -11,7 +11,6 @@ import org.firstinspires.ftc.teamcode.mechanisms.SwerveDrivetrain;
 public class SwerveTestTeleop extends LinearOpMode {
 
     SwerveDrivetrain swerve = new SwerveDrivetrain();
-    DcMotor intake = null;
 
     private DcMotor intake = null;
 

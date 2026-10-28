@@ -61,9 +61,7 @@ public class SwerveDrivetrain {
         double turn = gamepad.right_stick_x;
 
         telemetry.addData("Heading", headingRadians);
-        telemetry.addData("Joystick X", joystickX);
-        telemetry.addData("Joystick Y", joystickY);
-        telemetry.addData("Turn", turn);
+        telemetry.addLine();
 
         // Field Centric Conversion
         double cosHeading = Math.cos(headingRadians);
@@ -104,10 +102,16 @@ public class SwerveDrivetrain {
         driveModule backLeft = new driveModule(driveMotors[2], steeringServos[2]);
         driveModule backRight = new driveModule(driveMotors[3], steeringServos[3]);
 
+//        This code runs the function in the driveModule class where the motor and servo position are printed in the terminal
+
         frontLeft.displayTelemetry(telemetry, flAngle, flSpeed, steeringServos[0], "Front Left");
+        telemetry.addLine();
         frontRight.displayTelemetry(telemetry, frAngle, frSpeed, steeringServos[1], "Front Right");
+        telemetry.addLine();
         backLeft.displayTelemetry(telemetry, blAngle, blSpeed, steeringServos[2], "Back Left");
+        telemetry.addLine();
         backRight.displayTelemetry(telemetry, brAngle, brSpeed, steeringServos[3], "Back Right");
+        telemetry.addLine();
 
         frontLeft.update(flSpeed, flAngle);
         frontRight.update(frSpeed, frAngle);
