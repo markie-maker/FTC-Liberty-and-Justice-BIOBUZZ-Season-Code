@@ -19,7 +19,7 @@ public class alignServosTeleop extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
-            swerve.setServoPosition(1);
+            swerve.setServoPosition(0.5);
             idle();
         }
     }
